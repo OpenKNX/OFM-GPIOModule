@@ -1,11 +1,11 @@
-#include "GPIO_TCA9555.h"
+#include "GPIO_TCA6408.h"
 
-GPIO_TCA9555::GPIO_TCA9555(uint16_t i2cAddr, TwoWire* wire)
+GPIO_TCA6408::GPIO_TCA6408(uint16_t i2cAddr, TwoWire* wire)
 {
-    _tca = new TCA9555(i2cAddr, wire);
+    _tca = new TCA6408(i2cAddr, wire);
 }
 
-int GPIO_TCA9555::init()
+int GPIO_TCA6408::init()
 {
     if (_tca->begin())
     {
@@ -17,9 +17,9 @@ int GPIO_TCA9555::init()
     }
 }
 
-void GPIO_TCA9555::GPIOpinMode(uint8_t pin, int mode, bool preset, int status)
+void GPIO_TCA6408::GPIOpinMode(uint8_t pin, int mode, bool preset, int status)
 {
-    if(mode != INPUT && mode != OUTPUT || pin > 15)
+    if(mode != INPUT && mode != OUTPUT || pin > 7)
     {
         // log some message
         return;
@@ -32,9 +32,9 @@ void GPIO_TCA9555::GPIOpinMode(uint8_t pin, int mode, bool preset, int status)
     _tca->pinMode1(pin, mode);
 }
 
-void GPIO_TCA9555::GPIOdigitalWrite(uint8_t pin, int status)
+void GPIO_TCA6408::GPIOdigitalWrite(uint8_t pin, int status)
 {
-    if(pin > 15)
+    if(pin > 7)
     {
         // log some message
         return;
@@ -43,9 +43,9 @@ void GPIO_TCA9555::GPIOdigitalWrite(uint8_t pin, int status)
     _tca->write1(pin, status);
 }
 
-bool GPIO_TCA9555::GPIOdigitalRead(uint8_t pin)
+bool GPIO_TCA6408::GPIOdigitalRead(uint8_t pin)
 {
-    if(pin > 15)
+    if(pin > 7)
     {
         // log some message
         return 0;

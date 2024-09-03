@@ -1,6 +1,7 @@
 #include "GPIOModule.h"
 #include "OpenKNX.h"
 #include "GPIO_TCA9555.h"
+#include "GPIO_TCA6408.h"
 #include "GPIO_MCU.h"
 
 GPIOModule openknxGPIOModule;
@@ -50,6 +51,20 @@ void GPIOModule::init()
             case OPENKNX_GPIO_T_TCA9555:
             {
                 GPIOExpanders[i] = new GPIO_TCA9555(GPIO_ADDRS[i], &OPENKNX_GPIO_WIRE);
+                int statuscode = GPIOExpanders[i]->init();
+                if(statuscode)
+                {
+                    logErrorP("no connection to GPIO Expander %u with address %u (Errorcode: %u)", i, GPIO_ADDRS[i], statuscode);
+                }
+                else
+                {
+                    logInfoP("connected to GPIO Expander %u with address %u", i, GPIO_ADDRS[i]);
+                }
+            }
+            break;
+            case OPENKNX_GPIO_T_TCA6408:
+            {
+                GPIOExpanders[i] = new GPIO_TCA6408(GPIO_ADDRS[i], &OPENKNX_GPIO_WIRE);
                 int statuscode = GPIOExpanders[i]->init();
                 if(statuscode)
                 {
