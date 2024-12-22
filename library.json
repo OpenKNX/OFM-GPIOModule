@@ -2,7 +2,8 @@
     "name": "OFM-GPIOModule",
     "version": "0.0.0",
     "dependencies": {
-        "robtillaart/TCA9555": "^0.3.2"
+        "robtillaart/TCA9555": "^0.3.2", 
+        "sparkfun/SparkFun I2C Expander Arduino Library":"^1.0.1"
     },
     "description": "Hardware abstraction layer for GPIOs",
     "homepage": "https://openknx.de",
