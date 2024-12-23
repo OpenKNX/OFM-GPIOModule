@@ -1,9 +1,8 @@
 #include "GPIO_PCA9557.h"
 
 GPIO_PCA9557::GPIO_PCA9557(uint8_t i2cAddr, TwoWire* wire)
-    : _i2cAddr(i2cAddr), _wire(wire)
 {
-    _pca = new SFE_PCA95XX();
+    _pca = new PCA95XX(wire, i2cAddr, PCA95XX_PCA9557);
 }
 
 GPIO_PCA9557::~GPIO_PCA9557()
@@ -13,7 +12,7 @@ GPIO_PCA9557::~GPIO_PCA9557()
 
 int GPIO_PCA9557::init()
 {
-    if (_pca->begin(_i2cAddr, *_wire))
+    if (_pca->begin())
     {
         return 0;
     }

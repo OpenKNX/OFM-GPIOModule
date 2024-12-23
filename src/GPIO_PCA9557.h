@@ -1,14 +1,11 @@
 #pragma once
-
-#include <SparkFun_I2C_Expander_Arduino_Library.h> // Using SparkFun library for PCA9557
+#include "PCA95xx.h"
 #include "GPIOModule.h"
 
 class GPIO_PCA9557 : public iGPIOExpander
 {
   private:
-    SFE_PCA95XX* _pca = nullptr;
-    uint8_t _i2cAddr;
-    TwoWire* _wire;
+    PCA95XX* _pca = nullptr;
     bool _initialized = false;
 
   public:
