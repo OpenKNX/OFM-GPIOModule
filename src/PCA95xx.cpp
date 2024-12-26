@@ -1,5 +1,5 @@
 /**
- * OpenKNX I2C I/O Expander Library for PCA95xx series
+ * OpenKNX I2C I/O Expander Library for NXP PCA95xx series
  *
  * Based on the original SparkFun I2C Expander Arduino Library
  * (https://github.com/sparkfunX/SparkFun_I2C_Expander_Arduino_Library)
