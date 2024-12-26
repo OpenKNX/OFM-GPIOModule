@@ -27,8 +27,7 @@ const std::string GPIOModule::name()
 
 const std::string GPIOModule::version()
 {
-    //ToDo
-    return 0;
+    return MODULE_GPIOModule_Version;
 }
 
 
