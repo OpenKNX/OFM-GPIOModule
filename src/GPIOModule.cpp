@@ -7,8 +7,12 @@
 GPIOModule openknxGPIOModule;
 
 const OPENKNX_GPIO_T GPIO_TYPES[OPENKNX_GPIO_NUM+1] = {OPENKNX_GPIO_T_MCU, OPENKNX_GPIO_TYPES};
+#ifdef OPENKNX_GPIO_ADDRS
 const uint16_t GPIO_ADDRS[OPENKNX_GPIO_NUM+1] = {0, OPENKNX_GPIO_ADDRS};
+#endif
+#ifdef OPENKNX_GPIO_INTS
 const uint8_t GPIO_INTS[OPENKNX_GPIO_NUM+1] = {0, OPENKNX_GPIO_INTS};
+#endif
 iGPIOExpander* GPIOExpanders[OPENKNX_GPIO_NUM+1];
 
 GPIOModule::GPIOModule()
@@ -34,10 +38,12 @@ const std::string GPIOModule::version()
 
 void GPIOModule::init()
 {
+#ifdef OPENKNX_GPIO_WIRE
     OPENKNX_GPIO_WIRE.setSDA(OPENKNX_GPIO_SDA);
     OPENKNX_GPIO_WIRE.setSCL(OPENKNX_GPIO_SCL);
     OPENKNX_GPIO_WIRE.begin();
     OPENKNX_GPIO_WIRE.setClock(OPENKNX_GPIO_CLOCK);
+#endif
 
     for(int i = 0; i < OPENKNX_GPIO_NUM+1; i++)
     {
@@ -48,6 +54,7 @@ void GPIOModule::init()
                 GPIOExpanders[i] = new GPIO_MCU();
             }
             break;
+#ifdef OPENKNX_GPIO_ADDRS
             case OPENKNX_GPIO_T_TCA9555:
             {
                 GPIOExpanders[i] = new GPIO_TCA9555(GPIO_ADDRS[i], &OPENKNX_GPIO_WIRE);
@@ -76,6 +83,7 @@ void GPIOModule::init()
                 }
             }
             break;
+#endif
             default:
                 ;
                 logErrorP("GPIO_TYPE %u not found", GPIO_TYPES[i]);
