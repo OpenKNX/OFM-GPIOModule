@@ -3,6 +3,7 @@
 #include "GPIO_TCA9555.h"
 #include "GPIO_TCA6408.h"
 #include "GPIO_MCU.h"
+#include "GPIO_PCA9557.h"
 
 GPIOModule openknxGPIOModule;
 
@@ -51,13 +52,14 @@ void GPIOModule::init()
             case OPENKNX_GPIO_T_MCU:
             {
                 GPIOExpanders[i] = new GPIO_MCU();
+                GPIOExpanders[i]->setInitState(GPIOExpanders[i] != nullptr);
             }
             break;
 #ifdef OPENKNX_GPIO_ADDRS
             case OPENKNX_GPIO_T_TCA9555:
             {
                 GPIOExpanders[i] = new GPIO_TCA9555(GPIO_ADDRS[i], &OPENKNX_GPIO_WIRE);
-                int statuscode = GPIOExpanders[i]->init();
+                const int statuscode = GPIOExpanders[i]->init();
                 if(statuscode)
                 {
                     logErrorP("no connection to GPIO Expander %u with address %u (Errorcode: %u)", i, GPIO_ADDRS[i], statuscode);
@@ -65,13 +67,14 @@ void GPIOModule::init()
                 else
                 {
                     logInfoP("connected to GPIO Expander %u with address %u", i, GPIO_ADDRS[i]);
+                    GPIOExpanders[i]->setInitState(true);
                 }
             }
             break;
             case OPENKNX_GPIO_T_TCA6408:
             {
                 GPIOExpanders[i] = new GPIO_TCA6408(GPIO_ADDRS[i], &OPENKNX_GPIO_WIRE);
-                int statuscode = GPIOExpanders[i]->init();
+                const int statuscode = GPIOExpanders[i]->init();
                 if(statuscode)
                 {
                     logErrorP("no connection to GPIO Expander %u with address %u (Errorcode: %u)", i, GPIO_ADDRS[i], statuscode);
@@ -79,6 +82,22 @@ void GPIOModule::init()
                 else
                 {
                     logInfoP("connected to GPIO Expander %u with address %u", i, GPIO_ADDRS[i]);
+                    GPIOExpanders[i]->setInitState(true);
+                }
+            }
+            break;
+            case OPENKNX_GPIO_T_PCA9557:
+            {
+                GPIOExpanders[i] = new GPIO_PCA9557(GPIO_ADDRS[i], &OPENKNX_GPIO_WIRE);
+                const int statuscode = GPIOExpanders[i]->init();
+                if (GPIOExpanders[i]->init())
+                {
+                    logErrorP("No connection to GPIO Expander %u with address 0x%02X (Errorcode: %u)", i, GPIO_ADDRS[i], statuscode);
+                }
+                else
+                {
+                    logInfoP("Connected to GPIO Expander %u with address 0x%02X", i, GPIO_ADDRS[i]);
+                    GPIOExpanders[i]->setInitState(true);
                 }
             }
             break;
@@ -88,6 +107,11 @@ void GPIOModule::init()
                 logErrorP("GPIO_TYPE %u not found", GPIO_TYPES[i]);
         }
     }
+}
+
+const bool GPIOModule::initialized(uint8_t expander)
+{
+    return GPIOExpanders[expander]->getInitState();
 }
 
 void GPIOModule::loop()
@@ -115,7 +139,7 @@ void GPIOModule::digitalWrite(uint16_t pin, int status)
     {
         logErrorP("GPIOModule::digitalWrite: invalid pin id %u", pin);
         return;
-    }
+    } 
     GPIOExpanders[expander]->GPIOdigitalWrite(localpin, status);
 }
 
