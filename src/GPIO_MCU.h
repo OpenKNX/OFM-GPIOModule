@@ -1,3 +1,4 @@
+#ifdef USE_GPIO_MODULE
 #include "GPIOModule.h"
 
 class GPIO_MCU : public iGPIOExpander
@@ -13,3 +14,4 @@ class GPIO_MCU : public iGPIOExpander
   private:
     bool _initialized = false;
 };
+#endif // USE_GPIO_MODULE

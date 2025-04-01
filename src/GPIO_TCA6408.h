@@ -1,3 +1,4 @@
+#ifdef USE_GPIO_MODULE
 #include "GPIOModule.h"
 #include "TCA6408.h"
 
@@ -15,3 +16,4 @@ class GPIO_TCA6408 : public iGPIOExpander
     virtual inline const bool getInitState() { return _initialized; }
     virtual inline void setInitState(const bool status) { _initialized = status; }
 };
+#endif // USE_GPIO_MODULE

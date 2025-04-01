@@ -1,3 +1,4 @@
+#ifdef USE_GPIO_MODULE
 #include "GPIO_TCA6408.h"
 
 GPIO_TCA6408::GPIO_TCA6408(uint16_t i2cAddr, TwoWire* wire)
@@ -52,3 +53,4 @@ bool GPIO_TCA6408::GPIOdigitalRead(uint8_t pin)
     }
     return _tca->read1(pin);
 }
+#endif // USE_GPIO_MODULE

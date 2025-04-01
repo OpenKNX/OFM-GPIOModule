@@ -1,3 +1,4 @@
+#ifdef USE_GPIO_MODULE
 #include "GPIO_PCA9557.h"
 
 GPIO_PCA9557::GPIO_PCA9557(uint8_t i2cAddr, TwoWire* wire)
@@ -62,3 +63,4 @@ bool GPIO_PCA9557::GPIOdigitalRead(uint8_t pin)
     }
     return _pca->digitalRead(pin);
 }
+#endif // USE_GPIO_MODULE

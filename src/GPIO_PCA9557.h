@@ -1,3 +1,4 @@
+#ifdef USE_GPIO_MODULE
 #pragma once
 #include "PCA95xx.h"
 #include "GPIOModule.h"
@@ -18,3 +19,4 @@ class GPIO_PCA9557 : public iGPIOExpander
     virtual inline const bool getInitState() { return _initialized; }
     virtual inline void setInitState(const bool status) { _initialized = status; }
 };
+#endif // USE_GPIO_MODULE

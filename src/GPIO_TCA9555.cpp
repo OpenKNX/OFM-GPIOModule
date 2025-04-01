@@ -1,3 +1,4 @@
+#ifdef USE_GPIO_MODULE
 #include "GPIO_TCA9555.h"
 
 GPIO_TCA9555::GPIO_TCA9555(uint16_t i2cAddr, TwoWire* wire)
@@ -52,3 +53,4 @@ bool GPIO_TCA9555::GPIOdigitalRead(uint8_t pin)
     }
     return _tca->read1(pin);
 }
+#endif // USE_GPIO_MODULE

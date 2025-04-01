@@ -1,3 +1,4 @@
+#ifdef USE_GPIO_MODULE
 #pragma once
 #include "OpenKNX.h"
 #include "hardware.h"
@@ -49,3 +50,5 @@ class GPIOModule : public OpenKNX::Module
 };
 
 extern GPIOModule openknxGPIOModule;
+
+#endif // USE_GPIO_MODULE
